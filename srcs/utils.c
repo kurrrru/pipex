@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:02:34 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/23 12:48:23 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:59:34 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,10 @@ int	execute(char *sentence, char **envp)
 
 	cmd = ft_split(sentence, ' ');
 	if (!cmd)
-	{
-		perror("malloc");
-		return (-1);
-	}
+		return (perror("malloc"), -1);
 	path = get_path(cmd[0], envp);
 	if (!path)
-	{
 		return (free_2d(cmd), -1);
-	}
 	execve(path, cmd, envp);
-	perror(path);
-	return (free_2d(cmd), free(path), -1);
+	return (perror(path), free_2d(cmd), free(path), -1);
 }
