@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:02:34 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/22 20:50:21 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/09/23 12:48:23 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_path_from_pathset(char *cmd, char *path_set)
 
 	path_list = ft_split(path_set + 5, ':');
 	if (!path_list)
-		return (NULL);
+		return (perror("malloc"), NULL);
 	i = -1;
 	while (path_list[++i])
 	{
@@ -58,7 +58,15 @@ char	*get_path_from_pathset(char *cmd, char *path_set)
 char	*get_path(char *cmd, char **envp)
 {
 	int		i;
+	char	*path;
 
+	if (access(cmd, F_OK) == 0)
+	{
+		path = ft_strdup(cmd);
+		if (!path)
+			return (perror("malloc"), NULL);
+		return (path);
+	}
 	i = -1;
 	while (envp[++i])
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
