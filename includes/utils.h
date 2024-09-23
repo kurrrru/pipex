@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 11:57:14 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/23 14:35:57 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:41:27 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,9 @@ char	*get_path(char *cmd, char **envp);
 int		execute(char *sentence, char **envp);
 
 void	close_wrap(int fd);
+void	cmd_not_found(char *cmd);
+void	quote_error(char *cmd);
+
+int		rm_quote(char **str);
 
 #endif

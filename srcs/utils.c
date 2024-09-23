@@ -6,17 +6,11 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:02:34 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/23 15:59:34 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:52:58 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/utils.h"
-
-void	cmd_not_found(char *cmd)
-{
-	write(2, cmd, ft_strlen(cmd));
-	write(2, ": command not found\n", 20);
-}
 
 void	free_2d(char **ptr)
 {
@@ -85,6 +79,8 @@ int	execute(char *sentence, char **envp)
 	path = get_path(cmd[0], envp);
 	if (!path)
 		return (free_2d(cmd), -1);
+	if (rm_quote(cmd) == -1)
+		return (quote_error(cmd[0]), free_2d(cmd), free(path), -1);
 	execve(path, cmd, envp);
 	return (perror(path), free_2d(cmd), free(path), -1);
 }
