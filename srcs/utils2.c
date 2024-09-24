@@ -6,13 +6,13 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 19:14:49 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/24 20:03:38 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/09/24 20:44:53 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/utils.h"
 
-int	slide(char *str, int *i, int *j)
+static int	slide(char *str, int *i, int *j)
 {
 	int	k;
 

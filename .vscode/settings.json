@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"*.pdf": "bat",
+		"utils.h": "c"
+	}
+}

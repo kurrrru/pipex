@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:02:34 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/24 20:09:35 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:57:33 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_path_from_pathset(char *cmd, char *path_set)
 	char	*path;
 	char	**path_list;
 
-	path_list = ft_split(path_set + 5, ':');
+	path_list = ft_split_pipex(path_set + 5, ':');
 	if (!path_list)
 		return (perror("malloc"), NULL);
 	i = -1;
@@ -73,14 +73,14 @@ int	execute(char *sentence, char **envp)
 	char	**cmd;
 	char	*path;
 
-	cmd = ft_split(sentence, ' ');
+	cmd = ft_split_pipex(sentence, ' ');
 	if (!cmd)
 		return (perror("malloc"), -1);
+	if (rm_quote(cmd) == -1)
+		return (quote_error(cmd[0]), free_2d(cmd), -1);
 	path = get_path(cmd[0], envp);
 	if (!path)
 		return (free_2d(cmd), -1);
-	if (rm_quote(cmd) == -1)
-		return (quote_error(cmd[0]), free_2d(cmd), free(path), -1);
 	execve(path, cmd, envp);
 	return (perror(path), free_2d(cmd), free(path), -1);
 }
