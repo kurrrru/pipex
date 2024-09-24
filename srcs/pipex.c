@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:49:19 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/23 15:54:08 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/09/24 20:34:33 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void	first_child(int *fdedge, int *fdpipe, char *argv, char **envp)
 	if (fdedge[0] == -1)
 	{
 		close_wrap(fdpipe[1]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
-	dup2(fdedge[0], STDIN_FILENO);
-	dup2(fdpipe[1], STDOUT_FILENO);
+	dup2_wrap(fdedge[0], STDIN_FILENO);
+	dup2_wrap(fdpipe[1], STDOUT_FILENO);
 	close_wrap(fdedge[0]);
 	close_wrap(fdpipe[1]);
 	execute(argv, envp);
@@ -52,10 +52,10 @@ void	second_child(int *fdedge, int *fdpipe, char *argv, char **envp)
 	if (fdedge[1] == -1)
 	{
 		close_wrap(fdpipe[0]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
-	dup2(fdpipe[0], STDIN_FILENO);
-	dup2(fdedge[1], STDOUT_FILENO);
+	dup2_wrap(fdpipe[0], STDIN_FILENO);
+	dup2_wrap(fdedge[1], STDOUT_FILENO);
 	close_wrap(fdedge[1]);
 	close_wrap(fdpipe[0]);
 	execute(argv, envp);
@@ -74,6 +74,8 @@ void	parent_process(int *fdpipe, int *fdedge, int *pid)
 		perror("waitpid");
 	if (waitpid(pid[1], &status[1], 0) == -1)
 		perror("waitpid");
+	if (WEXITSTATUS(status[1]) && WEXITSTATUS(status[1]))
+		exit(WEXITSTATUS(status[1]));
 }
 
 int	main(int argc, char **argv, char **envp)

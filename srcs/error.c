@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:16:45 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/23 19:41:13 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/09/24 20:31:13 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,19 @@
 void	close_wrap(int fd)
 {
 	if (fd != -1 && close(fd) == -1)
+	{
 		perror("close");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	dup2_wrap(int oldfd, int newfd)
+{
+	if (dup2(oldfd, newfd) == -1)
+	{
+		perror("dup2");
+		exit(EXIT_FAILURE);
+	}
 }
 
 void	cmd_not_found(char *cmd)
