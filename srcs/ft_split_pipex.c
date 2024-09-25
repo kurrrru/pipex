@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 20:43:47 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/24 22:11:02 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:23:14 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,50 +22,30 @@ static void	free_rec(char **to_free, int num)
 	free(to_free);
 }
 
-// static int	block_fill(char **ret, const char *s, char c, int *pos)
-// {
-// 	int esc;
-// 	int quo[2];
+static void	scanning(char *ret, const char *s, char c, int *pos)
+{
+	int	esc;
+	int	quo[2];
 
-// 	while (s[*pos] == c && s[*pos] != '\0')
-// 		(*pos)++;
-// 	s = s + *pos;
-// 	*pos = 0;
-// 	quo[0] = 0;
-// 	quo[1] = 0;
-// 	esc = 0;
-// 	while (s[*pos] != '\0' && (s[*pos] != c || quo[0] || quo[1] || esc))
-// 	{
-// 		quo[0] ^= ((s[*pos] == '\'') && !esc && !quo[1]);
-// 		quo[1] ^= ((s[*pos] == '\"') && !esc && !quo[0]);
-// 		esc = (s[*pos] == '\\' && !esc);
-// 		(*pos)++;
-// 	}
-// 	*ret = (char *)malloc((*pos + 1) * sizeof(char));
-// 	if (!*ret)
-// 		return (1);
-// 	*pos = 0;
-// 	quo[0] = 0;
-// 	quo[1] = 0;
-// 	esc = 0;
-// 	while (s[*pos] != '\0' && (s[*pos] != c || quo[0] || quo[1] || esc))
-// 	{
-// 		quo[0] ^= ((s[*pos] == '\'') && !esc && !quo[1]);
-// 		quo[1] ^= ((s[*pos] == '\"') && !esc && !quo[0]);
-// 		esc = (s[*pos] == '\\' && !esc);
-// 		(*ret)[*pos] = s[*pos];
-// 		(*pos)++;
-// 	}
-// 	(*ret)[*pos] = '\0';
-// 	return (0);
-// }
+	*pos = 0;
+	quo[0] = 0;
+	quo[1] = 0;
+	esc = 0;
+	while (s[*pos] != '\0' && (s[*pos] != c || quo[0] || quo[1] || esc))
+	{
+		quo[0] ^= ((s[*pos] == '\'') && !esc && !quo[1]);
+		quo[1] ^= ((s[*pos] == '\"') && !esc && !quo[0]);
+		esc = (s[*pos] == '\\' && !esc);
+		if (ret)
+			ret[*pos] = s[*pos];
+		(*pos)++;
+	}
+}
 
 static int	split_fill(char **ret, int cnt, const char *s, char c)
 {
 	int	block;
 	int	pos;
-	int	esc;
-	int	quo[2];
 
 	block = -1;
 	pos = 0;
@@ -74,32 +54,11 @@ static int	split_fill(char **ret, int cnt, const char *s, char c)
 		while (s[pos] == c && s[pos] != '\0')
 			pos++;
 		s = s + pos;
-		pos = 0;
-		quo[0] = 0;
-		quo[1] = 0;
-		esc = 0;
-		while (s[pos] != '\0' && (s[pos] != c || quo[0] || quo[1] || esc))
-		{
-			quo[0] ^= ((s[pos] == '\'') && !esc && !quo[1]);
-			quo[1] ^= ((s[pos] == '\"') && !esc && !quo[0]);
-			esc = (s[pos] == '\\' && !esc);
-			pos++;
-		}
+		scanning(NULL, s, c, &pos);
 		ret[block] = (char *)malloc((pos + 1) * sizeof(char));
 		if (!ret[block])
 			return (free_rec(ret, block), 1);
-		pos = 0;
-		quo[0] = 0;
-		quo[1] = 0;
-		esc = 0;
-		while (s[pos] != '\0' && (s[pos] != c || quo[0] || quo[1] || esc))
-		{
-			quo[0] ^= ((s[pos] == '\'') && !esc && !quo[1]);
-			quo[1] ^= ((s[pos] == '\"') && !esc && !quo[0]);
-			esc = (s[pos] == '\\' && !esc);
-			ret[block][pos] = s[pos];
-			pos++;
-		}
+		scanning(ret[block], s, c, &pos);
 		ret[block][pos] = '\0';
 	}
 	return (0);
@@ -109,7 +68,7 @@ static int	count_words(const char *s, char c)
 {
 	int	cnt;
 	int	i;
-	int esc;
+	int	esc;
 	int	quo[2];
 
 	i = 0;
@@ -146,7 +105,7 @@ char	**ft_split_pipex(const char *s, char c)
 
 // int main(int argc, char **argv)
 // {
-// 	char *sentence = argv[1];//"awk \"{count++} END {printf \\\"count: %i\\\" , count}\"";
+// 	char *sentence = argv[1];
 // 	printf("[%s]\n", sentence);
 // 	char **splited = ft_split_pipex(sentence, ' ');
 // 	int i = 0;
