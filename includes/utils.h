@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 11:57:14 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/24 20:44:58 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:37:02 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	close_wrap(int fd);
 void	cmd_not_found(char *cmd);
 void	quote_error(char *cmd);
 void	dup2_wrap(int oldfd, int newfd);
+void	usage_error(void);
 
 int		rm_quote(char **str);
 

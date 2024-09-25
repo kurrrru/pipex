@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:49:19 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/24 20:34:33 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:37:08 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 	int		pid[2];
 
 	if (argc != 5)
-		return (write(2, "Usage: ./pipex file1 cmd1 cmd2 file2\n", 37), 1);
+		usage_error();
 	open_files(fdedge, argv[1], argv[4]);
 	if (pipe(fdpipe) == -1)
 		return (perror("pipe"), 1);
