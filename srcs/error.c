@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:16:45 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/25 18:36:36 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/06 13:03:25 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,19 @@ void	dup2_wrap(int oldfd, int newfd)
 
 void	cmd_not_found(char *cmd)
 {
-	write(2, cmd, ft_strlen(cmd));
-	write(2, ": command not found\n", 20);
+	write(STDERR_FILENO, cmd, ft_strlen(cmd));
+	write(STDERR_FILENO, ": command not found\n", 20);
+	exit(EXIT_CMD_NOT_FOUND);
 }
 
 void	quote_error(char *cmd)
 {
-	write(2, cmd, ft_strlen(cmd));
-	write(2, ": quote error\n", 14);
+	write(STDERR_FILENO, cmd, ft_strlen(cmd));
+	write(STDERR_FILENO, ": quote error\n", 14);
 }
 
 void	usage_error(void)
 {
-	write(2, "usage: ./pipex file1 cmd1 cmd2 file2\n", 37);
+	write(STDERR_FILENO, "usage: ./pipex file1 cmd1 cmd2 file2\n", 37);
 	exit(EXIT_FAILURE);
 }

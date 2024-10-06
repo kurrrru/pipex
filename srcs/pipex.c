@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:49:19 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/25 18:37:08 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/06 13:07:06 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void	open_files(int *fdedge, char *file1, char *file2)
 	fdedge[0] = open(file1, O_RDONLY);
 	if (fdedge[0] == -1)
 	{
-		write(2, "bash: ", 6);
+		write(STDERR_FILENO, "bash: ", 6);
 		perror(file1);
 	}
 	fdedge[1] = open(file2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fdedge[1] == -1)
 	{
-		write(2, "bash: ", 6);
+		write(STDERR_FILENO, "bash: ", 6);
 		perror(file2);
 	}
 }
@@ -88,21 +88,21 @@ int	main(int argc, char **argv, char **envp)
 		usage_error();
 	open_files(fdedge, argv[1], argv[4]);
 	if (pipe(fdpipe) == -1)
-		return (perror("pipe"), 1);
+		return (perror("pipe"), EXIT_FAILURE);
 	pid[0] = fork();
 	if (pid[0] == -1)
-		perror("fork");
+		return (perror("fork"), EXIT_FAILURE);
 	else if (pid[0] == 0)
 		first_child(fdedge, fdpipe, argv[2], envp);
 	else
 	{
 		pid[1] = fork();
 		if (pid[1] == -1)
-			perror("fork");
+			return (perror("fork"), EXIT_FAILURE);
 		else if (pid[1] == 0)
 			second_child(fdedge, fdpipe, argv[3], envp);
 		else
 			parent_process(fdpipe, fdedge, pid);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

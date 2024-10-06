@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 11:57:14 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/25 18:37:02 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/06 13:03:18 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <errno.h>
 # include <sys/wait.h>
 # include "../libft/libft.h"
+
+# define EXIT_CMD_NOT_FOUND 127
 
 void	free_2d(char **ptr);
 char	*get_path_from_pathset(char *cmd, char *path_set);
