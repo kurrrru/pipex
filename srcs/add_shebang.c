@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shebang2.c                                         :+:      :+:    :+:   */
+/*   add_shebang.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 10:24:34 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/10/08 10:46:46 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/08 11:59:12 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/utils.h"
+#include "../includes/pipex.h"
 
 char	**add_shebang(char **cmd, char *path)
 {

@@ -1,7 +1,9 @@
 SRCSDIR	= srcs
 INCDIR	= includes
-SRCS	= pipex.c utils.c utils2.c error.c ft_split_pipex.c shebang.c shebang2.c get_next_line.c get_next_line_utils.c
-OBJS	= $(addprefix $(SRCSDIR)/, $(SRCS:.c=.o))
+SRCS	= main.c pipex.c exec.c rm_quote.c error.c ft_split_pipex.c shebang.c add_shebang.c free_2d.c
+GNLDIR	= gnl
+GNL		= get_next_line.c get_next_line_utils.c
+OBJS	= $(addprefix $(SRCSDIR)/, $(SRCS:.c=.o)) $(addprefix $(GNLDIR)/, $(GNL:.c=.o))
 LIBDIR	= libft
 LIB		= libft.a
 NAME	= pipex

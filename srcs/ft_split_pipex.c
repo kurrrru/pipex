@@ -6,11 +6,11 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 20:43:47 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/25 18:23:14 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/08 11:59:47 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/utils.h"
+#include "../includes/pipex.h"
 
 static void	free_rec(char **to_free, int num)
 {
@@ -28,9 +28,9 @@ static void	scanning(char *ret, const char *s, char c, int *pos)
 	int	quo[2];
 
 	*pos = 0;
-	quo[0] = 0;
-	quo[1] = 0;
-	esc = 0;
+	quo[0] = FALSE;
+	quo[1] = FALSE;
+	esc = FALSE;
 	while (s[*pos] != '\0' && (s[*pos] != c || quo[0] || quo[1] || esc))
 	{
 		quo[0] ^= ((s[*pos] == '\'') && !esc && !quo[1]);
@@ -57,11 +57,11 @@ static int	split_fill(char **ret, int cnt, const char *s, char c)
 		scanning(NULL, s, c, &pos);
 		ret[block] = (char *)malloc((pos + 1) * sizeof(char));
 		if (!ret[block])
-			return (free_rec(ret, block), 1);
+			return (free_rec(ret, block), FAILURE);
 		scanning(ret[block], s, c, &pos);
 		ret[block][pos] = '\0';
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 static int	count_words(const char *s, char c)
@@ -98,7 +98,7 @@ char	**ft_split_pipex(const char *s, char c)
 	if (!ret)
 		return (NULL);
 	ret[cnt] = NULL;
-	if (split_fill(ret, cnt, s, c) == 1)
+	if (split_fill(ret, cnt, s, c) == FAILURE)
 		return (NULL);
 	return (ret);
 }

@@ -1,35 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   rm_quote.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 19:14:49 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/09/24 20:44:53 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:57:35 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/utils.h"
+#include "../includes/pipex.h"
 
-static int	slide(char *str, int *i, int *j)
-{
-	int	k;
-
-	k = *i + 1;
-	while (str[k] && str[k] != str[*i])
-	{
-		if (str[k] == '\\' && str[k + 1])
-			k++;
-		k++;
-	}
-	if (!str[k])
-		return (-1);
-	while (++(*i) < k)
-		str[(*j)++] = str[*i];
-	str[*i] = '\0';
-	return (0);
-}
+static int	slide(char *str, int *i, int *j);
 
 int	rm_quote(char **str)
 {
@@ -44,8 +27,8 @@ int	rm_quote(char **str)
 		{
 			if ((*str)[i] == '\'' || (*str)[i] == '\"')
 			{
-				if (slide(*str, &i, &j) == -1)
-					return (-1);
+				if (slide(*str, &i, &j) == FAILURE)
+					return (FAILURE);
 			}
 			else
 			{
@@ -56,5 +39,24 @@ int	rm_quote(char **str)
 		}
 		(*str++)[j] = '\0';
 	}
-	return (0);
+	return (SUCCESS);
+}
+
+static int	slide(char *str, int *i, int *j)
+{
+	int	k;
+
+	k = *i + 1;
+	while (str[k] && str[k] != str[*i])
+	{
+		if (str[k] == '\\' && str[k + 1])
+			k++;
+		k++;
+	}
+	if (!str[k])
+		return (FAILURE);
+	while (++(*i) < k)
+		str[(*j)++] = str[*i];
+	str[*i] = '\0';
+	return (SUCCESS);
 }

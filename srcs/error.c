@@ -6,15 +6,15 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:16:45 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/10/06 13:03:25 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:35:49 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/utils.h"
+#include "../includes/pipex.h"
 
 void	close_wrap(int fd)
 {
-	if (fd != -1 && close(fd) == -1)
+	if (fd != FAILURE && close(fd) == FAILURE)
 	{
 		perror("close");
 		exit(EXIT_FAILURE);
@@ -23,7 +23,7 @@ void	close_wrap(int fd)
 
 void	dup2_wrap(int oldfd, int newfd)
 {
-	if (dup2(oldfd, newfd) == -1)
+	if (dup2(oldfd, newfd) == FAILURE)
 	{
 		perror("dup2");
 		exit(EXIT_FAILURE);
@@ -32,19 +32,19 @@ void	dup2_wrap(int oldfd, int newfd)
 
 void	cmd_not_found(char *cmd)
 {
-	write(STDERR_FILENO, cmd, ft_strlen(cmd));
-	write(STDERR_FILENO, ": command not found\n", 20);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(MSG_CMD_NOT_FOUND, STDERR_FILENO);
 	exit(EXIT_CMD_NOT_FOUND);
 }
 
 void	quote_error(char *cmd)
 {
-	write(STDERR_FILENO, cmd, ft_strlen(cmd));
-	write(STDERR_FILENO, ": quote error\n", 14);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(MSG_QUOTE_ERROR, STDERR_FILENO);
 }
 
 void	usage_error(void)
 {
-	write(STDERR_FILENO, "usage: ./pipex file1 cmd1 cmd2 file2\n", 37);
+	ft_putstr_fd(MSG_USAGE_ERROR, STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }

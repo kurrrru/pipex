@@ -6,49 +6,21 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:16:43 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/10/08 10:50:10 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:10:58 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/utils.h"
+#include "../includes/pipex.h"
 
-int	is_control(char c)
-{
-	if (c <= 8 || (14 <= c && c <= 31) || c == 127)
-		return (TRUE);
-	return (FALSE);
-}
-
-int	is_binary(int fd, char *buf)
-{
-	int		read_size;
-	int		num_control;
-	int		i;
-
-	read_size = read(fd, buf, CHECK_BYTES);
-	if (read_size == FAILURE)
-		return (FAILURE);
-	buf[read_size] = '\0';
-	i = -1;
-	num_control = 0;
-	while (++i < read_size)
-		num_control += is_control(buf[i]);
-	if (num_control * BINARY_THRESHOLD_RATIO > read_size)
-		return (TRUE);
-	return (FALSE);
-}
-
-int	is_shebang_found(char *buf)
-{
-	if (ft_strlen(buf) < 2 || buf[0] != '#' || buf[1] != '!')
-		return (FALSE);
-	return (TRUE);
-}
+static int	is_control(char c);
+static int	is_binary(int fd, char *buf);
+static int	is_shebang_found(char *buf);
+static char	*get_shell(char **envp);
 
 char	*shebang(char *path, char ***cmd, char **envp)
 {
 	int		fd;
-	char	buf[CHECK_BYTES + 1];
+	char	buf[CHECK_BYTES];
 	char	*line;
 
 	if (!path)
@@ -67,7 +39,42 @@ char	*shebang(char *path, char ***cmd, char **envp)
 	return (close(fd), free(path), line);
 }
 
-char	*get_shell(char **envp)
+static int	is_control(char c)
+{
+	if (c <= 8 || (14 <= c && c <= 31) || c == 127)
+		return (TRUE);
+	return (FALSE);
+}
+
+static int	is_binary(int fd, char *buf)
+{
+	int		read_size;
+	int		num_control;
+	int		i;
+
+	read_size = read(fd, buf, CHECK_BYTES);
+	if (read_size == FAILURE)
+		return (FAILURE);
+	i = -1;
+	num_control = 0;
+	while (++i < read_size)
+		num_control += is_control(buf[i]);
+	if (num_control * BINARY_THRESHOLD_RATIO > read_size)
+		return (TRUE);
+	return (FALSE);
+}
+
+static int	is_shebang_found(char *buf)
+{
+	if (ft_strlen(buf) < SHEBANG_PREFIX_SIZE)
+		return (FALSE);
+	buf[SHEBANG_PREFIX_SIZE] = '\0';
+	if (ft_strncmp(buf, SHEBANG_PREFIX, SHEBANG_PREFIX_SIZE) == 0)
+		return (TRUE);
+	return (FALSE);
+}
+
+static char	*get_shell(char **envp)
 {
 	int		i;
 	char	*shell;
@@ -75,13 +82,13 @@ char	*get_shell(char **envp)
 	i = -1;
 	while (envp[++i])
 	{
-		if (ft_strncmp(envp[i], "SHELL=", 6) == 0)
+		if (ft_strncmp(envp[i], ENVP_SHELL, ENVP_SHELL_SIZE) == 0)
 		{
-			shell = ft_strdup(envp[i] + 6);
+			shell = ft_strdup(envp[i] + ENVP_SHELL_SIZE);
 			if (!shell)
 				return (perror("malloc"), NULL);
 			return (shell);
 		}
 	}
-	return (ft_strdup("/bin/bash"));
+	return (ft_strdup(DEFAULT_SHELL));
 }
