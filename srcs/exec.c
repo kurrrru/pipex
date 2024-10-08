@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:02:34 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/10/08 22:15:56 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/08 22:20:04 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	execute(char *sentence, char **envp)
 	char	**cmd;
 	char	*path;
 
-	cmd = ft_split_pipex(sentence, ' ');
+	cmd = ft_split_pipex(sentence, CMD_DELIMITER);
 	if (!cmd)
 		return (perror("malloc"), FAILURE);
 	if (rm_quote(cmd) == FAILURE)

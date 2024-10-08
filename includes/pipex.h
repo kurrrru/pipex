@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 11:57:14 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/10/08 13:12:26 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/08 22:19:51 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define PROPER_ARGC 5
 
 # define PID_WHEN_CHILD 0
+
+# define CMD_DELIMITER ' '
 
 # define EXIT_CMD_NOT_FOUND 127
 
