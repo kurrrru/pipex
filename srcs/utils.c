@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:02:34 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/10/06 13:31:35 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/08 11:02:24 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	free_2d(char **ptr)
 {
 	int	i;
 
+	if (!ptr)
+		return ;
 	i = -1;
 	while (ptr[++i])
 		free(ptr[i]);
@@ -79,8 +81,10 @@ int	execute(char *sentence, char **envp)
 	if (rm_quote(cmd) == -1)
 		return (quote_error(cmd[0]), free_2d(cmd), -1);
 	path = get_path(cmd[0], envp);
-	if (!path)
-		return (free_2d(cmd), -1);
+	if (access(path, X_OK) == 0)
+		path = shebang(path, &cmd, envp);
+	if (!path || !cmd)
+		return (free(path), free_2d(cmd), -1);
 	execve(path, cmd, envp);
 	return (perror(path), free_2d(cmd), free(path), -1);
 }

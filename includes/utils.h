@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 11:57:14 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/10/06 13:03:18 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/08 10:40:10 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,20 @@
 # include <errno.h>
 # include <sys/wait.h>
 # include "../libft/libft.h"
+# include "get_next_line.h"
 
 # define EXIT_CMD_NOT_FOUND 127
+# define TRUE 1
+# define FALSE 0
+# define SUCCESS 0
+# define FAILURE -1
+
+# define SHEBANG_PREFIX "#!"
+# define SHEBANG_PREFIX_SIZE 2
+
+# define CHECK_BYTES 1024
+
+# define BINARY_THRESHOLD_RATIO 10
 
 void	free_2d(char **ptr);
 char	*get_path_from_pathset(char *cmd, char *path_set);
@@ -38,5 +50,13 @@ void	usage_error(void);
 int		rm_quote(char **str);
 
 char	**ft_split_pipex(const char *s, char c);
+
+int		is_control(char c);
+int		is_binary(int fd, char *buf);
+int		is_shebang_found(char *buf);
+char	*shebang(char *path, char ***cmd, char **envp);
+char	*get_shell(char **envp);
+
+char	**add_shebang(char **cmd, char *path);
 
 #endif

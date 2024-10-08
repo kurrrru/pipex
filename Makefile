@@ -1,12 +1,12 @@
 SRCSDIR	= srcs
 INCDIR	= includes
-SRCS	= pipex.c utils.c utils2.c error.c ft_split_pipex.c
+SRCS	= pipex.c utils.c utils2.c error.c ft_split_pipex.c shebang.c shebang2.c get_next_line.c get_next_line_utils.c
 OBJS	= $(addprefix $(SRCSDIR)/, $(SRCS:.c=.o))
 LIBDIR	= libft
 LIB		= libft.a
 NAME	= pipex
 CC		= cc
-CFLAG	= -Wall -Wextra -Werror -fsanitize=address
+CFLAG	= -Wall -Wextra -Werror
 
 .DEFAULT_GOAL := all
 
