@@ -6,7 +6,7 @@
 /*   By: nkawaguc <nkawaguc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 11:57:14 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/10/13 15:50:19 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/13 16:10:39 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <errno.h>
 # include <sys/wait.h>
 # include "../libft/libft.h"
-# include "get_next_line.h"
 
 # define TRUE 1
 # define FALSE 0
