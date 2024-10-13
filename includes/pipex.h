@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: nkawaguc <nkawaguc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 11:57:14 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/10/08 22:19:51 by nkawaguc         ###   ########.fr       */
+/*   Updated: 2024/10/13 15:50:19 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 # define SHEBANG_PREFIX_SIZE 2
 # define CHECK_BYTES 1024
 # define BINARY_THRESHOLD_RATIO 10
-# define DEFAULT_SHELL "/bin/bash"
+# define DEFAULT_SHELL "/bin/zsh"
 
 # define MSG_CMD_NOT_FOUND ": command not found\n"
 # define MSG_QUOTE_ERROR ": quote error\n"
